@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Portal | Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin: 0 0 10px 0;
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        p.subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #475569;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        textarea { height: 80px; resize: none; }
+
+        /* Custom File Upload Button */
+        .file-upload {
+            position: relative;
+            background: #f1f5f9;
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .file-upload:hover { border-color: var(--primary); background: #eef2ff; }
+
+        #photo { display: none; }
+
+        .preview-box {
+            margin-top: 15px;
+            display: none;
+            text-align: center;
+        }
+
+        #imagePreview {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+        }
+
+        button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover { background: var(--primary-hover); transform: translateY(-1px); }
+        button:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+
+        /* Progress Bar Modern Look */
+        .progress-container {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .progress-bg {
+            background: #e2e8f0;
+            height: 8px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #successMsg {
+            display: none;
+            background: #ecfdf5;
+            color: var(--success);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 20px;
+            border: 1px solid #a7f3d0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Employee Registration</h2>
+    <p class="subtitle">Enter details to update the company records.</p>
+    
+    <form id="empForm">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="e.g. John Doe" required>
+        </div>
+
+        <div class="form-group">
+            <label>Designation</label>
+            <input type="text" name="designation" placeholder="e.g. Software Engineer" required>
+        </div>
+
+        <div class="form-group">
+            <label>Employee ID No</label>
+            <input type="text" name="idno" placeholder="e.g. EMP-101" required>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            <textarea name="address" placeholder="Residential Address..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Profile Photo</label>
+            <label for="photo" class="file-upload" id="dropZone">
+                <span id="fileLabel">Click to select photo</span>
+                <input type="file" id="photo" accept="image/*" required>
+            </label>
+            <div class="preview-box" id="previewBox">
+                <img id="imagePreview" src="" alt="Preview">
+            </div>
+        </div>
+
+        <button type="submit" id="submitBtn">Submit Records</button>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-label">
+                <span id="statusText">Uploading to Server...</span>
+                <span id="percentText">0%</span>
+            </div>
+            <div class="progress-bg">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div id="successMsg">✔ Record and Photo Uploaded Successfully!</div>
+    </form>
+</div>
+
+<script>
+    const scriptURL = "https://script.google.com/macros/s/AKfycbx61Pmy7Depj1kg4btVATawVoUaFpC_SJqQtWN4Ejk3UvA_vjgZOnMWHRzkDaXNKtFy/exec";
+    const form = document.getElementById('empForm');
+    const photoInput = document.getElementById('photo');
+    const previewBox = document.getElementById('previewBox');
+    const imagePreview = document.getElementById('imagePreview');
+    const fileLabel = document.getElementById('fileLabel');
+    const btn = document.getElementById('submitBtn');
+    const progContainer = document.getElementById('progressContainer');
+    const progBar = document.getElementById('progressBar');
+    const percentText = document.getElementById('percentText');
+    const successMsg = document.getElementById('successMsg');
+
+    // Handle Image Preview and Label Update
+    photoInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            fileLabel.innerText = "Selected: " + file.name;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                previewBox.style.display = "block";
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        const file = photoInput.files[0];
+        if(!file) return alert("Please select a photo");
+
+        btn.disabled = true;
+        btn.innerText = "Processing...";
+        progContainer.style.display = "block";
+        updateProgress(30, "Encrypting Image...");
+        
+        const reader = new FileReader();
+        reader.onload = function() {
+            const base64 = reader.result.split(",")[1];
+            
+            const payload = {
+                name: form.name.value,
+                designation: form.designation.value,
+                idno: form.idno.value,
+                address: form.address.value,
+                photo: base64,
+                photoName: file.name,
+                photoType: file.type
+            };
+
+            updateProgress(60, "Uploading to Google Drive...");
+
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                updateProgress(100, "Completed!");
+                successMsg.style.display = "block";
+                form.reset();
+                previewBox.style.display = "none";
+                fileLabel.innerText = "Click to select photo";
+                btn.disabled = false;
+                btn.innerText = "Submit Records";
+                
+                setTimeout(() => {
+                    successMsg.style.display = "none";
+                    progContainer.style.display = "none";
+                    updateProgress(0, "");
+                }, 6000);
+            })
+            .catch(error => {
+                alert("Upload failed. Please try again.");
+                btn.disabled = false;
+                btn.innerText = "Submit Records";
+                progContainer.style.display = "none";
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+
+    function updateProgress(percent, status) {
+        progBar.style.width = percent + "%";
+        percentText.innerText = percent + "%";
+        if(status) document.getElementById('statusText').innerText = status;
+    }
+</script>
+
+</body>
+</html>
