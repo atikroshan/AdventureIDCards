@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Employee Portal | ID CARD DETAILS</title>
+    <title>Employee Portal | Registration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -33,7 +33,7 @@
             background: var(--card-bg);
             padding: 40px;
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             border-radius: 20px;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
@@ -49,10 +49,10 @@
             text-align: center;
             font-size: 14px;
             color: #64748b;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
 
         label {
             display: block;
@@ -70,23 +70,24 @@
             font-size: 14px;
             transition: all 0.3s ease;
             box-sizing: border-box;
+            background-color: #fcfcfd;
         }
 
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            background-color: #fff;
         }
 
-        textarea { height: 80px; resize: none; }
+        textarea { height: 70px; resize: none; }
 
-        /* Custom File Upload Button */
         .file-upload {
             position: relative;
             background: #f1f5f9;
             border: 2px dashed var(--border);
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             cursor: pointer;
             transition: 0.3s;
@@ -102,13 +103,13 @@
             text-align: center;
         }
 
-        /* Updated to Rectangle 3.5 x 4.5 ratio */
         #imagePreview {
-            width: 140px; /* 3.5 base */
-            height: 180px; /* 4.5 base */
+            width: 100px;
+            height: 100px;
             object-fit: cover;
-            border-radius: 8px; /* Square/Rectangular corners */
+            border-radius: 50%;
             border: 3px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         button {
@@ -126,8 +127,9 @@
         }
 
         button:hover { background: var(--primary-hover); transform: translateY(-1px); }
-        button:disabled { background: #94a3b8; cursor: not-allowed; transform: none; }
+        button:disabled { background: #94a3b8; cursor: not-allowed; }
 
+        /* Progress UI */
         .progress-container {
             display: none;
             margin-top: 25px;
@@ -153,7 +155,7 @@
             width: 0%;
             background: var(--primary);
             border-radius: 10px;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 0.4s ease;
         }
 
         #successMsg {
@@ -166,20 +168,51 @@
             font-weight: 600;
             margin-top: 20px;
             border: 1px solid #a7f3d0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>ID CARD DETAILS</h2>
-    <p class="subtitle">Enter details to update the company records.</p>
+    <h2>Employee Registration</h2>
+    <p class="subtitle">Complete the form to update company records.</p>
     
     <form id="empForm">
         <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="name" placeholder="John Doe" required>
+        </div>
+
+        <div class="form-group">
+            <label>Designation</label>
+            <input type="text" name="designation" placeholder="Software Engineer" required>
+        </div>
+
+        <div class="form-group">
+            <label>Department</label>
+            <input type="text" name="department" placeholder="IT / HR / Sales" required>
+        </div>
+
+        <div class="form-group">
+            <label>Employee ID No</label>
+            <input type="text" name="idno" placeholder="EMP-001" required>
+        </div>
+
+        <div class="form-group">
+            <label>Address</label>
+            <textarea name="address" placeholder="Full residential address..." required></textarea>
+        </div>
+
+        <div class="form-group">
             <label>Profile Photo</label>
             <label for="photo" class="file-upload" id="dropZone">
-                <span id="fileLabel">Click to select photo</span>
+                <span id="fileLabel">Click to upload photo</span>
                 <input type="file" id="photo" accept="image/*" required>
             </label>
             <div class="preview-box" id="previewBox">
@@ -187,31 +220,11 @@
             </div>
         </div>
 
-        <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" name="name" placeholder="e.g. John Doe" required>
-        </div>
-
-        <div class="form-group">
-            <label>Designation</label>
-            <input type="text" name="designation" placeholder="e.g. Software Engineer" required>
-        </div>
-
-        <div class="form-group">
-            <label>Employee ID No</label>
-            <input type="text" name="idno" placeholder="e.g. EMP-101" required>
-        </div>
-
-        <div class="form-group">
-            <label>Address</label>
-            <textarea name="address" placeholder="Residential Address..." required></textarea>
-        </div>
-
-        <button type="submit" id="submitBtn">Submit Records</button>
+        <button type="submit" id="submitBtn">Submit Employee Record</button>
 
         <div class="progress-container" id="progressContainer">
             <div class="progress-label">
-                <span id="statusText">Uploading to Server...</span>
+                <span id="statusText">Preparing...</span>
                 <span id="percentText">0%</span>
             </div>
             <div class="progress-bg">
@@ -224,7 +237,9 @@
 </div>
 
 <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbx61Pmy7Depj1kg4btVATawVoUaFpC_SJqQtWN4Ejk3UvA_vjgZOnMWHRzkDaXNKtFy/exec";
+    // 1. UPDATE THIS URL WITH YOUR DEPLOYED WEB APP URL
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwMW5NJEq1-URuxvoD47IHwo8cTfnP72WRLNAXzXVwAwwt2-FrRHlCaa6fT9gaEu0O7/exec";
+
     const form = document.getElementById('empForm');
     const photoInput = document.getElementById('photo');
     const previewBox = document.getElementById('previewBox');
@@ -235,7 +250,9 @@
     const progBar = document.getElementById('progressBar');
     const percentText = document.getElementById('percentText');
     const successMsg = document.getElementById('successMsg');
+    const statusText = document.getElementById('statusText');
 
+    // Show Image Preview
     photoInput.addEventListener('change', function() {
         const file = this.files[0];
         if (file) {
@@ -258,15 +275,18 @@
         btn.disabled = true;
         btn.innerText = "Processing...";
         progContainer.style.display = "block";
-        updateProgress(30, "Encrypting Image...");
+        
+        updateProgress(20, "Reading Image...");
         
         const reader = new FileReader();
         reader.onload = function() {
             const base64 = reader.result.split(",")[1];
             
+            // Payload updated with Department
             const payload = {
                 name: form.name.value,
                 designation: form.designation.value,
+                department: form.department.value,
                 idno: form.idno.value,
                 address: form.address.value,
                 photo: base64,
@@ -274,7 +294,7 @@
                 photoType: file.type
             };
 
-            updateProgress(60, "Uploading to Google Drive...");
+            updateProgress(50, "Sending to Google...");
 
             fetch(scriptURL, {
                 method: 'POST',
@@ -282,24 +302,24 @@
                 body: JSON.stringify(payload)
             })
             .then(() => {
-                updateProgress(100, "Completed!");
+                updateProgress(100, "Success!");
                 successMsg.style.display = "block";
                 form.reset();
                 previewBox.style.display = "none";
-                fileLabel.innerText = "Click to select photo";
+                fileLabel.innerText = "Click to upload photo";
                 btn.disabled = false;
-                btn.innerText = "Submit Records";
+                btn.innerText = "Submit Employee Record";
                 
                 setTimeout(() => {
                     successMsg.style.display = "none";
                     progContainer.style.display = "none";
                     updateProgress(0, "");
-                }, 6000);
+                }, 5000);
             })
             .catch(error => {
-                alert("Upload failed. Please try again.");
+                alert("Upload failed. Check your internet and try again.");
                 btn.disabled = false;
-                btn.innerText = "Submit Records";
+                btn.innerText = "Submit Employee Record";
                 progContainer.style.display = "none";
             });
         };
@@ -309,7 +329,7 @@
     function updateProgress(percent, status) {
         progBar.style.width = percent + "%";
         percentText.innerText = percent + "%";
-        if(status) document.getElementById('statusText').innerText = status;
+        if(status) statusText.innerText = status;
     }
 </script>
 
